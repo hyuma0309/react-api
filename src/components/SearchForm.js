@@ -1,8 +1,6 @@
 import React from 'react'
 export default class SearchForm extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+  
   onClickSearch = e => {
     e.preventDefault();
     const word = e.target.form.word.value;

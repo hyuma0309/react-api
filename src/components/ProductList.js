@@ -2,25 +2,28 @@ import React from 'react'
 import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state ={
-        edit : false
-        }
-  }
+
 
   delete = (id) => {
     this.props.delete(id)
 }
 
+handleFileChange = (id,e) => {
+    e.preventDefault()
+    const products = this.props.products;
+    console.log(products);
+    let reader = new FileReader()
+    let file = e.target.files[0]
+    reader.onloadend = () => {
+      this.props.file(id, file, reader.result);
+    }
+    reader.readAsDataURL(file)
+  }
+
 
 handleButton= (id,e) =>{
     e.preventDefault()
-    const products = this.props.products;
-    products.filter( item => {
-    if(item.id === id){
-    this.setState({edit: true})
-    }});
+    this.props.editForm(id)
   }
 
 edit = (id,e) =>{
@@ -39,41 +42,42 @@ edit = (id,e) =>{
 
 
   render() {
-    const products = this.props.products
-    const list = []
-    for (let i = 0; i < products.length; i++) {
-        if(products[i].isVisible === true ){
-      list.push(
-        <li key={i} >
-          <span>{products[i].title}</span>
-          <span>{products[i].desc}</span>
-          <span>{products[i].price}</span>
-          <div>
-        <button type="submit" onClick={() => this.delete(products[i].id)}>削除</button>
-        <button type="submit" onClick = {(e) => this.handleButton(products[i].id , e)}>編集</button>
+const product =  this.props.products.map((product) => {
+        if (product.isVisible === true ){
+            return(
+          <ul key={product.id}>
+          <li>{product.title}</li>
+          <li>{product.desc}</li>
+          <li>{product.price}</li>
+        <div>
+        <button type="submit" onClick={() => this.delete(product.id)}>削除</button>
+        <button type="submit" onClick = {(e) => this.handleButton(product.id , e)}>編集</button>
         </div>
 
+        <div>
+        <input type="file" onChange={(e) => this.handleFileChange(product.id, e)}/>
+        <img src={product.imagePreviewUrl} />
+        </div>
 
-          {this.state.edit &&
+          {product.editIsVisible &&
           <EditForm
           product = {this.props.products}
           edit = {this.edit}
-          id = {products[i].id}
-          />
-          }
-        </li>
-      )
-    }
-
-    }
+          id = {product.id}
+          />}
+          </ul>
+            )
+        }
+    });
+    const searchItem = this.props.products.filter( function( value ) {
+       return value.isVisible === true
+  })
 
     return (
       <div>
         <h1>商品リスト</h1>
-        <ul>
-          {list}
-        </ul>
-            <h3>商品件数は{list.length}件です</h3>
+        {product}
+        <h3>商品件数は{searchItem.length}件です</h3>
       </div>
     )
   }

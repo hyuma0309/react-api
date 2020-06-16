@@ -1,17 +1,18 @@
 import React from 'react';
 import ProductContainer from './containers/ProductContainer';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import ProductForm from './components/ProductForm';
-import ProductList from './components/ProductList';
+import NotFound from './components/404';
+import { BrowserRouter, Route, Switch} from 'react-router-dom';
+
 
 
 function App() {
   return (
-    
-<ProductContainer />
-    
-
-
+      <BrowserRouter>
+      <Switch>
+       <Route exact path="/" render={() => (<ProductContainer />)}/>
+       <Route component={NotFound} />
+       </Switch>
+       </BrowserRouter>
   );
 }
 

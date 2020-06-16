@@ -1,6 +1,5 @@
 import React from 'react';
 import ProductForm from '../components/ProductForm';
-import ProductItem from '../components/EditForm';
 import ProductList from '../components/ProductList';
 import SearchForm from '../components/SearchForm';
 
@@ -9,21 +8,24 @@ export default class ProductContainer extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        products: [],
-      }
+        products: []
+           }
     }
+
       add = (title, desc, price) => {
-      const newProducts = this.state.products
+      const newProducts = this.state.products.slice()
       const product = {
-        id: this.state.products.length + 1,
+        id: newProducts.length + 1,
         title: title,
         desc: desc,
         price: price,
-        isVisible: true
-      }
+        isVisible: true,
+        editIsVisible: false,
+        imagePreviewUrl: ""      }
       newProducts.push(product)
       this.setState({products: newProducts})
     }
+
 
     delete =(id)=> {
         const products = this.state.products;
@@ -34,21 +36,38 @@ export default class ProductContainer extends React.Component {
         this.setState({products: products})
       }
 
+      editForm = (id) => {
+        const products = this.state.products;
+        const formIndex = products.findIndex( product => product.id === id );
+        products[formIndex].editIsVisible = true
+        this.setState({products: products})
+      }
+
 
 
       edit = (id, editProduct) =>{
-        const products = this.state.products.slice();
+        const products = this.state.products;
         //編集したい配列を取得
         const editIndex = products.findIndex( product => product.id === id ) ;
         const product = {
+          id: id,
           title: editProduct.title,
           desc: editProduct.desc,
           price: editProduct.price,
+          isVisible: true
         }
         //上書きしたい要素に新しい要素を再代入
         products[editIndex] = product
         this.setState({products: products})
         console.log(products);
+      }
+
+      file = (id,fileName, imagePreviewUrl) => {
+        const products = this.state.products.slice();
+        const fileIndex = products.findIndex( product => product.id === id ) ;
+        products[fileIndex]= { ...products[fileIndex], fileName, imagePreviewUrl}
+        this.setState({products: products})
+        console.log(imagePreviewUrl)
       }
 
 
@@ -76,6 +95,8 @@ export default class ProductContainer extends React.Component {
         products={this.state.products}
         delete = {this.delete}
         edit = {this.edit}
+        editForm = {this.editForm}
+        file = {this.file}
         />
         <SearchForm search={this.search} />
     </div>
