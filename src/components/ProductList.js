@@ -10,12 +10,10 @@ export default class ProductList extends React.Component {
 
 handleFileChange = (id,e) => {
     e.preventDefault()
-    const products = this.props.products;
-    console.log(products);
     let reader = new FileReader()
     let file = e.target.files[0]
     reader.onloadend = () => {
-      this.props.file(id, file, reader.result);
+      this.props.file(id,  reader.result);
     }
     reader.readAsDataURL(file)
   }
@@ -48,7 +46,7 @@ const product =  this.props.products.map((product) => {
           <ul key={product.id}>
           <li>{product.title}</li>
           <li>{product.desc}</li>
-          <li>{product.price}</li>
+          <li>{product.price}円</li>
         <div>
         <button type="submit" onClick={() => this.delete(product.id)}>削除</button>
         <button type="submit" onClick = {(e) => this.handleButton(product.id , e)}>編集</button>
@@ -72,6 +70,9 @@ const product =  this.props.products.map((product) => {
     const searchItem = this.props.products.filter( function( value ) {
        return value.isVisible === true
   })
+
+  console.log(this.props.products)
+
 
     return (
       <div>

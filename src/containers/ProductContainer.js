@@ -20,10 +20,11 @@ export default class ProductContainer extends React.Component {
         desc: desc,
         price: price,
         isVisible: true,
-        editIsVisible: false,
-        imagePreviewUrl: ""      }
+        editIsVisible: false
+           }
       newProducts.push(product)
       this.setState({products: newProducts})
+
     }
 
 
@@ -62,12 +63,11 @@ export default class ProductContainer extends React.Component {
         console.log(products);
       }
 
-      file = (id,fileName, imagePreviewUrl) => {
+      file = (id, imagePreviewUrl) => {
         const products = this.state.products.slice();
         const fileIndex = products.findIndex( product => product.id === id ) ;
-        products[fileIndex]= { ...products[fileIndex], fileName, imagePreviewUrl}
+        products[fileIndex]= { ...products[fileIndex], imagePreviewUrl}
         this.setState({products: products})
-        console.log(imagePreviewUrl)
       }
 
 

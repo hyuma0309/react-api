@@ -23,14 +23,14 @@ export default class ProductItem extends React.Component {
         const descLength = desc.length;
         const priceLength = Number(price);
 
-        if (titleLength === 0 || 100 < titleLength) {
-            messages.push('1〜100字で入力して下さい');
+        if (titleLength === 0 || 10 < titleLength) {
+            messages.push('タイトルは1〜10字で入力して下さい');
         }
         if (descLength === 0 || 500 < descLength) {
-            messages.push('1〜500字で入力して下さい');
+            messages.push('説明は1〜500字で入力して下さい');
         }
-        if (priceLength === 0 || 10 < priceLength) {
-            messages.push('10以上の整数で入力して下さい');
+        if (priceLength === 0) {
+            messages.push('価格は1円以上で入力して下さい');
         }
 
         if (messages.length === 0) {
@@ -46,16 +46,15 @@ export default class ProductItem extends React.Component {
 
 render(){
 
-
     return(
         <div>
               <form id="view">
               <label>タイトル：</label>
-              <input name = "title" type = "text" placeholder="最大10文字" ></input>
+              <input name = "title" type = "text" placeholder="1〜10字" ></input>
               <label>説明</label>
-              <input name ="desc"  type = "text" placeholder="最大500文字" ></input>
+              <input name ="desc"  type = "text" placeholder="1〜500字" ></input>
               <label>価格</label>
-              <input name = "price" type = "number" placeholder="最低10円"  ></input>
+              <input name = "price" type = "number" placeholder="最低1円"  min="1" ></input>
               <button type="submit" id="validate" onClick={(e) => this.isValid(this.props.id, e)}>更新</button>
               </form>
               <p>{this.state.messages}</p>

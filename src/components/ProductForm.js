@@ -21,14 +21,14 @@ export default class ProductForm extends React.Component {
         const descLength = desc.length;
         const priceLength = Number(price);
 
-        if (titleLength === 0 || 100 < titleLength) {
-            messages.push('1〜100字で入力して下さい');
+        if (titleLength === 0 || 10 < titleLength) {
+            messages.push('タイトルは1〜10字で入力して下さい');
         }
         if (descLength === 0 || 500 < descLength) {
-            messages.push('1〜500字で入力して下さい');
+            messages.push('説明は1〜500字で入力して下さい');
         }
-        if (priceLength === 0 || 10 < priceLength) {
-            messages.push('10以上の整数で入力して下さい');
+        if (priceLength === 0) {
+            messages.push('価格は1円以上で入力して下さい');
         }
 
     if(messages.length === 0 ){
@@ -38,24 +38,33 @@ export default class ProductForm extends React.Component {
     valid.disabled = true;
     this.setState({messages: messages});
   }
+
+
   }
 
   render() {
+
+    if (typeof this.state.messages === "undefined") {
+      console.log("messagesはundefinedです。");
+    }
+
+console.log(this.state.messages)
+
 
     return (
       <div>
         <h1>ProductForm</h1>
         <form>
           <label>タイトル：</label>
-          <input type="text" id="title" placeholder="最大10文字" name="title" required maxLength="10"/>
+          <input type="text" id="title" placeholder="1〜10字" name="title" />
           <label>説明：</label>
-          <input type="text" id="desc" name="desc" placeholder="最大500文字" required maxLength="500"/>
+          <input type="text" id="desc" name="desc" placeholder="1〜500字" />
           <label>価格</label>
-          <input type="number"  id="price" name="price" placeholder="最低10円" required　min="10" max="1000000"/>
+          <input type="number"  id="price" name="price" placeholder="最低1円" min="1"/>
           <button type="submit" id="valid" onClick={this.onSubmit}>追加</button>
         </form>
-        <p>{this.state.messages}</p>
-      </div>
+       <p>{this.state.messages}</p>
+        </div>
     )
   }
 }
