@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export default class ProductItem extends React.Component {
+export default class EditForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,6 +46,14 @@ export default class ProductItem extends React.Component {
 
 render(){
 
+    const messageList = this.state.messages.map((message) => {
+           return (
+            <ul key={message}>
+           <li>{message}</li>
+           </ul>
+           )
+    })
+
     return(
         <div>
               <form id="view">
@@ -57,9 +65,8 @@ render(){
               <input name = "price" type = "number" placeholder="最低1円"  min="1" ></input>
               <button type="submit" id="validate" onClick={(e) => this.isValid(this.props.id, e)}>更新</button>
               </form>
-              <p>{this.state.messages}</p>
+              {messageList}
           </div>
-
     )
 }
 

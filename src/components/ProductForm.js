@@ -4,7 +4,7 @@ export default class ProductForm extends React.Component {
   constructor(props) {
     super(props)
     this.state ={
-      massages: []
+      messages: []
     }
   }
 
@@ -44,11 +44,13 @@ export default class ProductForm extends React.Component {
 
   render() {
 
-    if (typeof this.state.messages === "undefined") {
-      console.log("messagesはundefinedです。");
-    }
-
-console.log(this.state.messages)
+    const messageList = this.state.messages.map((message) => {
+      return (
+       <ul key={message}>
+      <li>{message}</li>
+      </ul>
+      )
+})
 
 
     return (
@@ -63,7 +65,7 @@ console.log(this.state.messages)
           <input type="number"  id="price" name="price" placeholder="最低1円" min="1"/>
           <button type="submit" id="valid" onClick={this.onSubmit}>追加</button>
         </form>
-       <p>{this.state.messages}</p>
+       {messageList}
         </div>
     )
   }

@@ -71,8 +71,6 @@ const product =  this.props.products.map((product) => {
        return value.isVisible === true
   })
 
-  console.log(this.props.products)
-
 
     return (
       <div>

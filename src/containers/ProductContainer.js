@@ -60,7 +60,6 @@ export default class ProductContainer extends React.Component {
         //上書きしたい要素に新しい要素を再代入
         products[editIndex] = product
         this.setState({products: products})
-        console.log(products);
       }
 
       file = (id, imagePreviewUrl) => {
