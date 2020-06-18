@@ -1,68 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# フロントエンド課題(React 商品登録アプリ)
 
-## Available Scripts
+## 技術要素
 
-In the project directory, you can run:
+| feature                                                                       | description                            |
+| ----------------------------------------------------------------------------- | -------------------------------------- |
+| [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/lang/ja/)         | パッケージ管理ツール。                 |
+| [React](https://ja.reactjs.org/)                                              | Facebook 製の仮想 DOM ライブラリ。     |
+| [create-react-app](https://create-react-app.dev/)                             | Facebook 製の React の雛形作成ツール。 |
+| [Prettier](https://prettier.io/)                                              | コードフォーマッタ。                   |
+| [EditorConfig](https://editorconfig.org/)                                     | 汎用コードフォーマッタ。               |
+| [VisualStudioCode](https://code.visualstudio.com/)                            | Microsoft 製のエディタ。               |
+| [react-router](https://reacttraining.com/react-router/web/guides/quick-start) | pushState 対応ルーターライブラリ。     |
 
-### `yarn start`
+# 環境構築
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## node.js のインストール
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+・[Node.jsインストール](https://nodejs.org/ja/)からNode.jsをインストールする
+・バージョンの確認(v12.16.2)
+ $ node -v
 
-### `yarn test`
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## npm のインストール
 
-### `yarn build`
+```
+・npmインストール
+$ sudo npm install -g npm
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+・npmバージョン確認(6.14.4)
+$ npm -v
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## React アプリの起動
 
-### `yarn eject`
+```
+$ git clone git@bitbucket.org:teamlabengineering/asada-frontend.git
+cd ~/ {cloneしたディレクトリ} /asada-frontend
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+$ npm install
+$ npm start
+```
