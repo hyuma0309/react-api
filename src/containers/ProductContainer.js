@@ -12,6 +12,7 @@ export default class ProductContainer extends React.Component {
            }
     }
 
+    //商品の追加
       add = (title, desc, price) => {
       const newProducts = this.state.products.slice()
       const product = {
@@ -27,7 +28,7 @@ export default class ProductContainer extends React.Component {
 
     }
 
-
+　 //商品の削除
     delete =(id)=> {
         const products = this.state.products;
         //削除したい配列を取得
@@ -37,6 +38,7 @@ export default class ProductContainer extends React.Component {
         this.setState({products: products})
       }
 
+      //編集フォームの表示
       editForm = (id) => {
         const products = this.state.products;
         const formIndex = products.findIndex( product => product.id === id );
@@ -45,7 +47,7 @@ export default class ProductContainer extends React.Component {
       }
 
 
-
+      //商品の編集
       edit = (id, editProduct) =>{
         const products = this.state.products;
         //編集したい配列を取得
@@ -62,6 +64,7 @@ export default class ProductContainer extends React.Component {
         this.setState({products: products})
       }
 
+      //画像の追加
       file = (id, imagePreviewUrl) => {
         const products = this.state.products.slice();
         const fileIndex = products.findIndex( product => product.id === id ) ;
@@ -70,7 +73,7 @@ export default class ProductContainer extends React.Component {
       }
 
 
-
+  //商品の検索
     search = (word) =>{
     const newProducts = this.state.products
     newProducts.forEach(value =>{
