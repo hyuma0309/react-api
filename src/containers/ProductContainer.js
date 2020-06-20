@@ -2,18 +2,51 @@ import React from 'react';
 import ProductForm from '../components/ProductForm';
 import ProductList from '../components/ProductList';
 import SearchForm from '../components/SearchForm';
+import productApi from '../api/ProductApi'
+
 
 
 export default class ProductContainer extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
+        apiToken: '',
         products: []
            }
     }
 
+    componentDidMount() {
+      const apiToken = window.localStorage.getItem('apiToken');
+      this.setState({apiToken: apiToken});
+  }
+
+  /**
+     * 商品情報一覧を取得します
+     * @param e
+     */
+    fetchData = async (e) => {
+      const apiToken = this.state.apiToken;
+      const products = await productApi.fetchAll(apiToken);
+      this.setState({
+        products: products
+    });
+      window.localStorage.setItem('apiToken', apiToken);
+    }
+
+     /**
+     * apiTokenの変更をstateに反映させます
+     * @param e
+     */
+    handleInputChange = e => {
+      this.setState({apiToken: e.target.value})
+  };
+
+
     //商品の追加
-      add = (title, desc, price) => {
+      add = async (title, desc, price) => {
+      const apiToken = this.state.apiToken;
+      await productApi.add(title, desc, price, apiToken);
+
       const newProducts = this.state.products.slice()
       const product = {
         id: newProducts.length + 1,
@@ -91,7 +124,15 @@ export default class ProductContainer extends React.Component {
     render() {
 
   return (
+
     <div>
+          <form>
+          <h1>APIトークン</h1>
+          <input type="text" id="api" placeholder="トークンを入れてください" onChange={this.handleInputChange} value={this.state.apiToken} />
+          <button type="submit" id="valid" onClick={this.fetchData}>商品情報を取得</button>
+          </form>
+
+
         <ProductForm add={this.add} />
         <ProductList
         products={this.state.products}
