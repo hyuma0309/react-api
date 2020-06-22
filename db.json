@@ -1,5 +1,5 @@
 {
-  "todos": [
+  "products": [
     {
       "id": 1,
       "title": "JSON ServerでダミーAPIを作成"
