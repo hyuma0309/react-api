@@ -21,25 +21,27 @@ export default class ProductContainer extends React.Component {
   }
 
   /**
-     * 商品情報一覧を取得します
-     * @param e
-     */
-    fetchData = async (e) => {
-      const apiToken = this.state.apiToken;
-      const products = await productApi.fetchAll(apiToken);
-      this.setState({
-        products: products
-    });
-      window.localStorage.setItem('apiToken', apiToken);
-    }
-
-     /**
      * apiTokenの変更をstateに反映させます
      * @param e
      */
     handleInputChange = e => {
       this.setState({apiToken: e.target.value})
   };
+
+  /**
+     * 商品情報一覧を取得します
+     * @param e
+     */
+    fetchData = async (e) => {
+      const apiToken = this.state.apiToken;
+      const products = await productApi.fetchAll(apiToken);
+      console.log(products)
+      this.setState({
+        products: products
+    });
+      window.localStorage.setItem('apiToken', apiToken);
+    }
+
 
 
     //商品の追加
@@ -128,7 +130,7 @@ export default class ProductContainer extends React.Component {
     <div>
           <form>
           <h1>APIトークン</h1>
-          <input type="text" id="api" placeholder="トークンを入れてください" onChange={this.handleInputChange} value={this.state.apiToken} />
+          <input type="text" id="api" placeholder="トークンを入れてください" onChange={this.handleInputChange} />
           <button type="submit" id="valid" onClick={this.fetchData}>商品情報を取得</button>
           </form>
 

@@ -7,8 +7,8 @@ export default class ProductForm extends React.Component {
       messages: []
     }
   }
-
-  onSubmit = e => {
+ 
+   onSubmit = e => {
     e.preventDefault();
     const messages = [];
     const form = e.target.form

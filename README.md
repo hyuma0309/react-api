@@ -23,23 +23,11 @@
 
 ```
 
-## npm のインストール
-
-```
-・npmインストール
-$ sudo npm install -g npm
-
-・npmバージョン確認(6.14.4)
-$ npm -v
-
-```
-
 ## React アプリの起動
 
 ```
 $ git clone git@bitbucket.org:teamlabengineering/asada-frontend.git
 cd ~/ {cloneしたディレクトリ} /asada-frontend
 
-$ npm install
 $ npm start
 ```
