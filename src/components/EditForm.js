@@ -19,7 +19,7 @@ export default class EditForm extends React.Component {
 
     const titleLength = title.length;
     const descLength = desc.length;
-    const priceLength = Number(price);
+    const priceNumber = Number(price);
 
     if (titleLength === 0 || 10 < titleLength) {
       messages.push('タイトルは1〜10字で入力して下さい');
@@ -27,7 +27,7 @@ export default class EditForm extends React.Component {
     if (descLength === 0 || 500 < descLength) {
       messages.push('説明は1〜500字で入力して下さい');
     }
-    if (priceLength === 0) {
+    if (!Number.isInteger(priceNumber) || priceNumber < 1) {
       messages.push('価格は1円以上で入力して下さい');
     }
 
