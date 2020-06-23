@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 /* APIサーバーのURL */
-const API_HOST = process.env.REACT_APP_API_HOST; //http://localhost:8080/
+const API_HOST = process.env.API_HOST; //http://localhost:8080/
 
 const productApi = axios.create({
     baseURL: API_HOST + 'api/products',
@@ -14,9 +14,14 @@ const productApi = axios.create({
 /**
  * apiのアクセスに必要なauthヘッダーを作成して返します
  */
- const generateConfig = (apiToken) => ({
-    headers: {'Authorization': `Bearer ${apiToken}`}
-});
+ const generateConfig = (apiToken) => {
+    productApi.interceptors.request.use(function (config) {
+        config.headers.Authorization = `Bearer ${apiToken}`
+        return config;
+      })
+};
+
+ 
 
 
 /**
@@ -24,9 +29,7 @@ const productApi = axios.create({
  */
 const fetchAll = async (apiToken) => {
         const products = (await productApi.get('/', generateConfig(apiToken)));
-        products.forEach(v => {
-            console.log(v)
-        });
+        console.log('成功')
         return products;
     }
 
