@@ -27,8 +27,8 @@ export default class EditForm extends React.Component {
     if (descLength === 0 || 500 < descLength) {
       messages.push('説明は1〜500字で入力して下さい');
     }
-    if (!Number.isInteger(priceNumber) || priceNumber < 1) {
-      messages.push('価格は1円以上で入力して下さい');
+    if (!Number.isInteger(priceNumber) || priceNumber < 1 || priceNumber > 1000000) {
+      messages.push('価格は1円以上100万円以下で入力して下さい');
     }
 
     if (messages.length === 0) {
@@ -57,7 +57,7 @@ export default class EditForm extends React.Component {
           <label>説明</label>
           <input name="desc" type="text" placeholder="1〜500字"></input>
           <label>価格</label>
-          <input name="price" type="number" placeholder="最低1円" min="1"></input>
+          <input name="price" type="number" placeholder="1円以上100万円以下" min="1"></input>
           <button type="submit" id="validate" onClick={e => this.isValid(this.props.id, e)}>
             更新
           </button>

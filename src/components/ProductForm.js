@@ -28,7 +28,7 @@ export default class ProductForm extends React.Component {
       messages.push('説明は1〜500字で入力して下さい');
     }
     if (!Number.isInteger(priceNumber) || priceNumber < 1 || priceNumber > 1000000) {
-      messages.push('価格は1円以上100万以下で入力して下さい');
+      messages.push('価格は1円以上100万円以下で入力して下さい');
     }
     if (messages.length === 0) {
       this.props.add(title, desc, price);
@@ -57,7 +57,7 @@ export default class ProductForm extends React.Component {
           <label>説明：</label>
           <input type="text" id="desc" name="desc" placeholder="1〜500字" />
           <label>価格</label>
-          <input type="number" id="price" name="price" placeholder="最低1円" min="1" />
+          <input type="number" id="price" name="price" placeholder="1円以上100万円以下" min="1" />
           <button type="submit" id="valid" onClick={this.onSubmit}>
             追加
           </button>
