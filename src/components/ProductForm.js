@@ -27,8 +27,8 @@ export default class ProductForm extends React.Component {
     if (descLength === 0 || 500 < descLength) {
       messages.push('説明は1〜500字で入力して下さい');
     }
-    if (!Number.isInteger(priceNumber) || priceNumber < 1) {
-      messages.push('価格は1円以上で入力して下さい');
+    if (!Number.isInteger(priceNumber) || priceNumber < 1 || priceNumber > 1000000) {
+      messages.push('価格は1円以上100万以下で入力して下さい');
     }
     if (messages.length === 0) {
       this.props.add(title, desc, price);
