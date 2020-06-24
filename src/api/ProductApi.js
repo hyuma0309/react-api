@@ -14,12 +14,9 @@ const productApi = axios.create({
 /**
  * apiのアクセスに必要なauthヘッダーを作成して返します
  */
- const generateConfig = (apiToken) => {
-    productApi.interceptors.request.use(function (config) {
-        config.headers.Authorization = `Bearer ${apiToken}`
-        return config;
-      })
-};
+ const generateConfig = (apiToken) => ({
+    headers: {Authorization: `Bearer: ${apiToken}`},
+});
 
  
 
