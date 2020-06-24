@@ -1,0 +1,18 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "黄ペン",
+      "description": "黄色インクです",
+      "price": 100,
+      "imagePreviewUrl": "8f1c0222-bf8c-476d-9e14-0742b8b4c21a.jpg"
+    },
+    {
+      "id": 2,
+      "title": "赤ペン",
+      "description": "赤色インクです",
+      "price": 100,
+      "imagePreviewUrl": "d6384bf6-ae7b-4e08-bbe9-5d255254110b.jpg"
+    }
+  ]
+}
