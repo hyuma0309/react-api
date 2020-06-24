@@ -31,3 +31,17 @@ cd ~/ {cloneしたディレクトリ} /asada-frontend
 
 $ npm start
 ```
+
+## json.serverの起動
+
+```
+・json-serverをインストール
+$ npm install -g json-server
+
+・json-serveを起動
+$ json-server db.json
+
+・db.json に入っているデータを取得できるかを確認
+$ curl -i http://localhost:3000/products
+
+```

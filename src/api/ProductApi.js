@@ -4,7 +4,7 @@ import axios from 'axios'
 const API_HOST = process.env.API_HOST; //http://localhost:8080/
 
 const productApi = axios.create({
-    baseURL: API_HOST + 'api/products',
+    baseURL:'http://localhost:8080/api/products',
     headers: {
         'Content-Type': 'application/json'
     },
@@ -22,7 +22,7 @@ const productApi = axios.create({
 
 
 /**
- * 商品情報一覧を取得します
+ * 商品情報一覧を取得
  */
 const fetchAll = async (apiToken) => {
         const products = (await productApi.get('/', generateConfig(apiToken)));
@@ -31,7 +31,7 @@ const fetchAll = async (apiToken) => {
     }
 
 /**
- * 商品を追加します
+ * 商品を追加
  */
 const add = async (title, desc, price, apiToken) => {
         const product = (await productApi.post('/', title, desc, price, generateConfig(apiToken)));
@@ -39,7 +39,7 @@ const add = async (title, desc, price, apiToken) => {
 };
 
 /**
- * 指定idの商品を更新します
+ * 指定idの商品を更新
  */
 const update = async (id, title, desc, price, apiToken) => {
         const product = (await productApi.put(`/${id}`, title, desc, price, generateConfig(apiToken)));
@@ -47,7 +47,7 @@ const update = async (id, title, desc, price, apiToken) => {
 };
 
 /**
- * 指定idの商品を削除します
+ * 指定idの商品を削除
  */
 const $delete = async (id, apiToken) => {
         return await productApi.delete(`/${id}`, generateConfig(apiToken));
