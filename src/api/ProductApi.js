@@ -12,45 +12,63 @@ const productApi = axios.create({
 });
 
 /**
- * apiのアクセスに必要なauthヘッダーを作成して返します
+ * アクセスに必要なヘッダーを作成します
  */
  const generateConfig = (apiToken) => ({
-    headers: {Authorization: `Bearer: ${apiToken}`},
+    headers: {Authorization: `Bearer:${apiToken}`}
 });
 
- 
 
 
 /**
  * 商品情報一覧を取得
  */
-const fetchAll = async (apiToken) => {
-        const products = (await productApi.get('/', generateConfig(apiToken)));
-        console.log('成功')
+const fetchAll =   (apiToken) => {
+        const products = ( productApi.get('/', generateConfig(apiToken)));
         return products;
     }
 
 /**
  * 商品を追加
  */
-const add = async (title, desc, price, apiToken) => {
-        const product = (await productApi.post('/', title, desc, price, generateConfig(apiToken)));
+const add =   (title, desc, price, apiToken) => {
+        const product = ( productApi.post('/',
+        {
+            title: title,
+            description: desc,
+            price: price
+        },
+        generateConfig(apiToken)));
         return product;
 };
 
 /**
- * 指定idの商品を更新
+ * 商品を更新
  */
-const update = async (id, title, desc, price, apiToken) => {
-        const product = (await productApi.put(`/${id}`, title, desc, price, generateConfig(apiToken)));
+const update =  (id, editForm, apiToken) => {
+        const product = ( productApi.put(`/${id}`,
+        editForm,generateConfig(apiToken)));
         return product;
 };
 
 /**
- * 指定idの商品を削除
+ * 商品を削除
  */
-const $delete = async (id, apiToken) => {
-        return await productApi.delete(`/${id}`, generateConfig(apiToken));
+const $delete =  (id, apiToken) => {
+        return  productApi.delete(`/${id}`, generateConfig(apiToken));
+};
+
+
+
+/**
+ *  画像を追加
+ */
+const image =  (id, image, apiToken) => {
+     axios.patch(`http://localhost:8080/api/products/${id}/images`,{productImage: image}, {
+        headers: {
+        'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${apiToken}`
+        }});
 };
 
 
@@ -60,5 +78,6 @@ export default {
     fetchAll,
     add,
     update,
-    delete: $delete
+    delete: $delete,
+    image
 };
