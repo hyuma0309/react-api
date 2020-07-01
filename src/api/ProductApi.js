@@ -1,83 +1,81 @@
-import axios from 'axios'
+import axios from 'axios';
 
 /* APIサーバーのURL */
-const API_HOST = process.env.API_HOST; //http://localhost:8080/
+const REACT_APP_HOST = process.env.REACT_APP_HOST; //http://localhost:8080/
 
 const productApi = axios.create({
-    baseURL:'http://localhost:8080/api/products',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    responseType: 'json'
+  baseURL: REACT_APP_HOST + 'api/products',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  responseType: 'json',
 });
 
 /**
  * アクセスに必要なヘッダーを作成します
  */
- const generateConfig = (apiToken) => ({
-    headers: {Authorization: `Bearer:${apiToken}`}
+const generateConfig = apiToken => ({
+  headers: { Authorization: `Bearer:${apiToken}` },
 });
-
-
 
 /**
  * 商品情報一覧を取得
  */
-const fetchAll =   (apiToken) => {
-        const products = ( productApi.get('/', generateConfig(apiToken)));
-        return products;
-    }
+const login = apiToken => {
+  const products = productApi.get('/', generateConfig(apiToken));
+  return products;
+};
 
 /**
  * 商品を追加
  */
-const add =   (title, desc, price, apiToken) => {
-        const product = ( productApi.post('/',
-        {
-            title: title,
-            description: desc,
-            price: price
-        },
-        generateConfig(apiToken)));
-        return product;
+const add = (title, description, price, apiToken) => {
+  const product = productApi.post(
+    '/',
+    {
+      title: title,
+      description: description,
+      price: price,
+    },
+    generateConfig(apiToken)
+  );
+  return product;
 };
 
 /**
  * 商品を更新
  */
-const update =  (id, editForm, apiToken) => {
-        const product = ( productApi.put(`/${id}`,
-        editForm,generateConfig(apiToken)));
-        return product;
+const update = (id, editForm, apiToken) => {
+  const product = productApi.put(`/${id}`, editForm, generateConfig(apiToken));
+  return product;
 };
 
 /**
  * 商品を削除
  */
-const $delete =  (id, apiToken) => {
-        return  productApi.delete(`/${id}`, generateConfig(apiToken));
+const $delete = (id, apiToken) => {
+  return productApi.delete(`/${id}`, generateConfig(apiToken));
 };
-
-
 
 /**
- *  画像を追加
+ *  画像HOST
  */
-const image =  (id, image, apiToken) => {
-     axios.patch(`http://localhost:8080/api/products/${id}/images`,{productImage: image}, {
+const image = (id, imagePath, apiToken) => {
+    axios.patch(
+      REACT_APP_HOST + 'api/products' + `/${id}` + `/images`,imagePath,
+      {
         headers: {
-        'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${apiToken}`
-        }});
-};
-
-
+          Authorization: `Bearer:${apiToken}`
+        },
+      }
+      );
+  };
 
 
 export default {
-    fetchAll,
-    add,
-    update,
-    delete: $delete,
-    image
+  login,
+  add,
+  update,
+  delete: $delete,
+  image
 };

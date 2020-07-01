@@ -54,9 +54,9 @@ export default class ProductForm extends React.Component {
       <div>
         <h1>ProductForm</h1>
         <form>
-          <label>タイトル：</label>
+          <label>商品名</label>
           <input type="text" id="title" placeholder="1〜10字" name="title" />
-          <label>説明：</label>
+          <label>説明</label>
           <input type="text" id="description" name="description" placeholder="1〜500字" />
           <label>価格</label>
           <input type="number" id="price" name="price" placeholder="1円以上100万円以下" min="1" />

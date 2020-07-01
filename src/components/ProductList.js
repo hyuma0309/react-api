@@ -10,13 +10,10 @@ export default class ProductList extends React.Component {
   //画像ファイルの読み取り
   handleFileChange = (id, e) => {
     e.preventDefault();
-    let reader = new FileReader();
+    let data = new FormData();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.props.file(id, reader.result);
-    };
-    reader.readAsDataURL(file);
-    console.log(reader.result)
+    data.append('productImage', file);
+    this.props.file(id,data)
   };
 
   //フォームの表示
@@ -34,14 +31,13 @@ export default class ProductList extends React.Component {
     const price = form.price.value;
     const editProduct = {
       title: title,
-      price: price,
-      description: description
+      description: description,
+      price: price
     };
     this.props.edit(id, editProduct);
   };
 
   render() {
-    console.log(this.props.products)
     const product = this.props.products.map(product => {
       if (product.isVisible === true) {
         return (
@@ -60,7 +56,7 @@ export default class ProductList extends React.Component {
 
             <div>
               <input type="file"  onChange={e => this.handleFileChange(product.id, e)} />
-              <img src={product.imagePreviewUrl} />
+              
             </div>
 
             {product.editIsVisible && (

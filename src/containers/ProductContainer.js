@@ -9,15 +9,15 @@ export default class ProductContainer extends React.Component {
     super(props);
     this.state = {
       apiToken: '',
-      products: []
+      message: '',
+      products: [],
     };
   }
 
   componentDidMount() {
-        const apiToken = window.localStorage.getItem('apiToken');
-        this.setState({apiToken: apiToken});
-    }
-
+    const apiToken = window.localStorage.getItem('apiToken');
+    this.setState({ apiToken: apiToken });
+  }
 
   /**
    * apiTokenの変更をstateに反映
@@ -27,38 +27,63 @@ export default class ProductContainer extends React.Component {
     this.setState({ apiToken: e.target.value });
   };
 
-
   /**
-   * 商品情報一覧を取得
+   * トークンで認証
    * @param e
    */
-  fetchData = async e => {
-    e.preventDefault();
-    const apiToken = this.state.apiToken;
-    const products = await productApi.fetchAll(apiToken);
-    this.setState({
-      products: products.data
-    });
-    window.localStorage.setItem('apiToken', apiToken);
+  authentication = async e => {
+    try {
+      e.preventDefault();
+      const apiToken = this.state.apiToken;
+      const products = await productApi.login(apiToken);
+      this.setState({
+        products: products.data,
+      });
+      this.setState({ message: '認証に成功しました' });
+      window.localStorage.setItem('apiToken', apiToken);
+    } catch (e) {
+      if (e.response.status === 401) {
+        alert(e.response.data.detail);
+      }
+    }
   };
 
   //商品の追加
-  add =  async (title, description, price) => {
+  add = async (title, description, price) => {
     const apiToken = this.state.apiToken;
-    const promise = await productApi.add(title, description, price, apiToken);
-    this.state.products.push(promise.data);
-    console.log(this.state.products);
+    const newProducts = this.state.products.slice();
+    try {
+      const promise = await productApi.add(title, description, price, apiToken);
+      const product = {
+        id: promise.data.id,
+        title: promise.data.title,
+        description: promise.data.description,
+        price: promise.data.price,
+        isVisible: true,
+      };
+      newProducts.push(product);
+      this.setState({ products: newProducts });
+    } catch (e) {
+      if (e.response.status === 400) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 401) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 500) {
+        alert(e.response.data.detail);
+      }
+    }
   };
 
   //商品の削除
-  delete = async (id) => {
+  delete = async id => {
     const apiToken = this.state.apiToken;
     const products = this.state.products;
-     //削除したい配列を取得
+    //削除したい配列を取得
     const deleteIndex = products.findIndex(product => product.id === id);
     //配列を一つ削除
     this.state.products.splice(deleteIndex, 1);
     await productApi.delete(id, apiToken);
+    this.setState({ products: products });
   };
 
   //編集フォームの表示
@@ -71,31 +96,51 @@ export default class ProductContainer extends React.Component {
 
   //商品の編集
   edit = async (id, editProduct) => {
-    const apiToken = this.state.apiToken;
-    const products = this.state.products;
-    //編集したい配列を取得
-    const editIndex = products.findIndex(product => product.id === id);
-    const product = {
-      id: id,
-      title: editProduct.title,
-      description: editProduct.description,
-      price: editProduct.price,
-      isVisible: true,
-    };
-    //上書きしたい要素に新しい要素を再代入
-    products[editIndex] = product;
-    await productApi.update(id,editProduct, apiToken);
-    };
+    try {
+      const apiToken = this.state.apiToken;
+      const products = this.state.products;
+      //編集したい配列を取得
+      const editIndex = products.findIndex(product => product.id === id);
+      const product = {
+        id: id,
+        title: editProduct.title,
+        description: editProduct.description,
+        price: editProduct.price,
+        isVisible: true,
+      };
+      //上書きしたい要素に新しい要素を再代入
+      products[editIndex] = product;
+      await productApi.update(id, editProduct, apiToken);
+      this.setState({ products: products });
+    } catch (e) {
+      if (e.response.status === 400) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 401) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 500) {
+        alert(e.response.data.detail);
+      }
+    }
+  };
 
   //画像の追加
-  file = async (id, productImage) => {
-    const apiToken = this.state.apiToken;
-    const products = this.state.products.slice();
-    const fileIndex = products.findIndex(product => product.id === id);
-    products[fileIndex] = { ...products[fileIndex], productImage };
-    console.log(products)
-    await productApi.image(id,productImage, apiToken);
-    };
+  file = async (id, imagePath) => {
+    try {
+      const apiToken = this.state.apiToken;
+      const products = this.state.products.slice();
+      await productApi.image(id, imagePath, apiToken);
+      const fileIndex = products.findIndex(product => product.id === id);
+      products[fileIndex] = { ...products[fileIndex], imagePath };
+      this.setState({ products: products });
+      console.log(products);
+    } catch (e) {
+      if (e.response.status === 401) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 500) {
+        alert(e.response.data.detail);
+      }
+    }
+  };
 
   //商品の検索
   search = word => {
@@ -111,10 +156,8 @@ export default class ProductContainer extends React.Component {
     this.setState({ products: newProducts });
   };
 
-
   render() {
     return (
-
       <div>
         <form>
           <h1>APIトークン</h1>
@@ -123,11 +166,11 @@ export default class ProductContainer extends React.Component {
             placeholder="トークンを入れてください"
             onChange={this.handleInputChange}
           />
-          <button type="submit" onClick={this.fetchData}>
+          <button type="submit" onClick={this.authentication}>
             Tokenを取得
           </button>
         </form>
-
+        <p>{this.state.message}</p>
         <ProductForm add={this.add} />
         <ProductList
           products={this.state.products}
@@ -138,6 +181,6 @@ export default class ProductContainer extends React.Component {
         />
         <SearchForm search={this.search} />
       </div>
-          );
+    );
   }
 }
