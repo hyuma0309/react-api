@@ -44,6 +44,8 @@ export default class ProductContainer extends React.Component {
     } catch (e) {
       if (e.response.status === 401) {
         alert(e.response.data.detail);
+      }else if(!e.response){
+        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -53,12 +55,12 @@ export default class ProductContainer extends React.Component {
     const apiToken = this.state.apiToken;
     const newProducts = this.state.products.slice();
     try {
-      const promise = await productApi.add(title, description, price, apiToken);
+      const response = await productApi.add(title, description, price, apiToken);
       const product = {
-        id: promise.data.id,
-        title: promise.data.title,
-        description: promise.data.description,
-        price: promise.data.price,
+        id: response.data.id,
+        title: response.data.title,
+        description: response.data.description,
+        price: response.data.price,
         isVisible: true,
       };
       newProducts.push(product);
@@ -70,6 +72,8 @@ export default class ProductContainer extends React.Component {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
+      }else if(!e.response){
+        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -78,12 +82,22 @@ export default class ProductContainer extends React.Component {
   delete = async id => {
     const apiToken = this.state.apiToken;
     const products = this.state.products;
+    try{
     //削除したい配列を取得
     const deleteIndex = products.findIndex(product => product.id === id);
     //配列を一つ削除
     this.state.products.splice(deleteIndex, 1);
     await productApi.delete(id, apiToken);
     this.setState({ products: products });
+    }catch(e){
+      if (e.response.status === 401) {
+        alert(e.response.data.detail);
+      } else if (e.response.status === 500) {
+        alert(e.response.data.detail);
+      }else if(!e.response){
+        alert('ネットワークエラーが発生しました！');
+      }
+    }
   };
 
   //編集フォームの表示
@@ -119,6 +133,8 @@ export default class ProductContainer extends React.Component {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
+      }else if(!e.response){
+        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -138,6 +154,8 @@ export default class ProductContainer extends React.Component {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
+      }else if(!e.response){
+        alert('ネットワークエラーが発生しました！');
       }
     }
   };

@@ -14,7 +14,7 @@ const productApi = axios.create({
 /**
  * アクセスに必要なヘッダーを作成します
  */
-const generateConfig = apiToken => ({
+const header = apiToken => ({
   headers: { Authorization: `Bearer:${apiToken}` },
 });
 
@@ -22,7 +22,7 @@ const generateConfig = apiToken => ({
  * 商品情報一覧を取得
  */
 const login = apiToken => {
-  const products = productApi.get('/', generateConfig(apiToken));
+  const products = productApi.get('/', header(apiToken));
   return products;
 };
 
@@ -37,7 +37,7 @@ const add = (title, description, price, apiToken) => {
       description: description,
       price: price,
     },
-    generateConfig(apiToken)
+    header(apiToken)
   );
   return product;
 };
@@ -46,7 +46,7 @@ const add = (title, description, price, apiToken) => {
  * 商品を更新
  */
 const update = (id, editForm, apiToken) => {
-  const product = productApi.put(`/${id}`, editForm, generateConfig(apiToken));
+  const product = productApi.put(`/${id}`, editForm, header(apiToken));
   return product;
 };
 
@@ -54,7 +54,7 @@ const update = (id, editForm, apiToken) => {
  * 商品を削除
  */
 const $delete = (id, apiToken) => {
-  return productApi.delete(`/${id}`, generateConfig(apiToken));
+  return productApi.delete(`/${id}`, header(apiToken));
 };
 
 /**
