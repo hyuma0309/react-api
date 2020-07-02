@@ -4,11 +4,11 @@ export default class ProductForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: []
+      messages: [],
     };
   }
 
-   onSubmit = e => {
+  onSubmit = e => {
     e.preventDefault();
     const messages = [];
     const form = e.target.form;
@@ -17,11 +17,9 @@ export default class ProductForm extends React.Component {
     const price = form.price.value;
     const valid = document.getElementById('valid');
 
-        const titleLength = title.length;
-        const descLength = description.length;
-        const priceNumber = Number(price);
-
-
+    const titleLength = title.length;
+    const descLength = description.length;
+    const priceNumber = Number(price);
 
     if (titleLength === 0 || 10 < titleLength) {
       messages.push('タイトルは1〜10字で入力して下さい');
@@ -60,7 +58,9 @@ export default class ProductForm extends React.Component {
           <input type="text" id="description" name="description" placeholder="1〜500字" />
           <label>価格</label>
           <input type="number" id="price" name="price" placeholder="1円以上100万円以下" min="1" />
-          <button type="submit" id="valid" onClick={this.onSubmit}>追加</button>
+          <button type="submit" id="valid" onClick={this.onSubmit}>
+            追加
+          </button>
         </form>
         {messageList}
       </div>

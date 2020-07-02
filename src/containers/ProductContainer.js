@@ -42,10 +42,10 @@ export default class ProductContainer extends React.Component {
       this.setState({ message: '認証に成功しました' });
       window.localStorage.setItem('apiToken', apiToken);
     } catch (e) {
-      if (e.response.status === 401) {
+      if (!e.response) {
+        alert('ネットワークエラーが発生しました');
+      } else if (e.response.status === 401) {
         alert(e.response.data.detail);
-      }else if(!e.response){
-        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -66,14 +66,14 @@ export default class ProductContainer extends React.Component {
       newProducts.push(product);
       this.setState({ products: newProducts });
     } catch (e) {
-      if (e.response.status === 400) {
+      if (!e.response) {
+        alert('ネットワークエラーが発生しました！');
+      } else if (e.response.status === 400) {
         alert(e.response.data.detail);
       } else if (e.response.status === 401) {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
-      }else if(!e.response){
-        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -82,20 +82,20 @@ export default class ProductContainer extends React.Component {
   delete = async id => {
     const apiToken = this.state.apiToken;
     const products = this.state.products;
-    try{
-    //削除したい配列を取得
-    const deleteIndex = products.findIndex(product => product.id === id);
-    //配列を一つ削除
-    this.state.products.splice(deleteIndex, 1);
-    await productApi.delete(id, apiToken);
-    this.setState({ products: products });
-    }catch(e){
-      if (e.response.status === 401) {
+    try {
+      //削除したい配列を取得
+      const deleteIndex = products.findIndex(product => product.id === id);
+      //配列を一つ削除
+      this.state.products.splice(deleteIndex, 1);
+      await productApi.delete(id, apiToken);
+      this.setState({ products: products });
+    } catch (e) {
+      if (!e.response) {
+        alert('ネットワークエラーが発生しました！');
+      } else if (e.response.status === 401) {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
-      }else if(!e.response){
-        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -127,14 +127,14 @@ export default class ProductContainer extends React.Component {
       await productApi.update(id, editProduct, apiToken);
       this.setState({ products: products });
     } catch (e) {
-      if (e.response.status === 400) {
+      if (!e.response) {
+        alert('ネットワークエラーが発生しました！');
+      } else if (e.response.status === 400) {
         alert(e.response.data.detail);
       } else if (e.response.status === 401) {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
-      }else if(!e.response){
-        alert('ネットワークエラーが発生しました！');
       }
     }
   };
@@ -150,12 +150,12 @@ export default class ProductContainer extends React.Component {
       this.setState({ products: products });
       console.log(products);
     } catch (e) {
-      if (e.response.status === 401) {
+      if (!e.response) {
+        alert('ネットワークエラーが発生しました！');
+      } else if (e.response.status === 401) {
         alert(e.response.data.detail);
       } else if (e.response.status === 500) {
         alert(e.response.data.detail);
-      }else if(!e.response){
-        alert('ネットワークエラーが発生しました！');
       }
     }
   };

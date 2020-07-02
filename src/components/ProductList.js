@@ -13,7 +13,7 @@ export default class ProductList extends React.Component {
     let data = new FormData();
     let file = e.target.files[0];
     data.append('productImage', file);
-    this.props.file(id,data)
+    this.props.file(id, data);
   };
 
   //フォームの表示
@@ -21,7 +21,6 @@ export default class ProductList extends React.Component {
     e.preventDefault();
     this.props.editForm(id);
   };
-
 
   edit = (id, e) => {
     e.preventDefault();
@@ -32,7 +31,7 @@ export default class ProductList extends React.Component {
     const editProduct = {
       title: title,
       description: description,
-      price: price
+      price: price,
     };
     this.props.edit(id, editProduct);
   };
@@ -55,8 +54,7 @@ export default class ProductList extends React.Component {
             </div>
 
             <div>
-              <input type="file"  onChange={e => this.handleFileChange(product.id, e)} />
-              
+              <input type="file" onChange={e => this.handleFileChange(product.id, e)} />
             </div>
 
             {product.editIsVisible && (
