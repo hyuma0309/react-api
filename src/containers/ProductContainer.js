@@ -34,6 +34,12 @@ export default class ProductContainer extends React.Component {
   undefindError = e => {
     if (!e.response) {
       alert('ネットワークエラーが発生しました！');
+    } else if (e.response.status === 400) {
+      alert(e.response.data.detail);
+    } else if (e.response.status === 401) {
+      alert(e.response.data.detail);
+    } else if (e.response.status === 500) {
+      alert(e.response.data.detail);
     }
   };
 
@@ -53,9 +59,6 @@ export default class ProductContainer extends React.Component {
       window.localStorage.setItem('apiToken', apiToken);
     } catch (e) {
       this.undefindError(e);
-      if (e.response.status === 401) {
-        alert(e.response.data.detail);
-      }
     }
   };
 
@@ -76,13 +79,6 @@ export default class ProductContainer extends React.Component {
       this.setState({ products: newProducts });
     } catch (e) {
       this.undefindError(e);
-      if (e.response.status === 400) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 401) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 500) {
-        alert(e.response.data.detail);
-      }
     }
   };
 
@@ -99,11 +95,6 @@ export default class ProductContainer extends React.Component {
       this.setState({ products: products });
     } catch (e) {
       this.undefindError(e);
-      if (e.response.status === 401) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 500) {
-        alert(e.response.data.detail);
-      }
     }
   };
 
@@ -135,13 +126,6 @@ export default class ProductContainer extends React.Component {
       this.setState({ products: products });
     } catch (e) {
       this.undefindError(e);
-      if (e.response.status === 400) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 401) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 500) {
-        alert(e.response.data.detail);
-      }
     }
   };
 
@@ -157,11 +141,6 @@ export default class ProductContainer extends React.Component {
       console.log(products);
     } catch (e) {
       this.undefindError(e);
-      if (e.response.status === 401) {
-        alert(e.response.data.detail);
-      } else if (e.response.status === 500) {
-        alert(e.response.data.detail);
-      }
     }
   };
 
