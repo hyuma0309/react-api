@@ -33,6 +33,7 @@ export default class ProductForm extends React.Component {
     if (messages.length === 0) {
       this.props.add(title, description, price);
       this.setState({ messages: [] });
+      form.reset();
     } else {
       valid.disabled = true;
       this.setState({ messages: messages });

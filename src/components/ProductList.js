@@ -58,7 +58,7 @@ export default class ProductList extends React.Component {
             </div>
 
             {product.editIsVisible && (
-              <EditForm product={this.props.products} edit={this.edit} id={product.id} />
+              <EditForm product={product} edit={this.edit} id={product.id} />
             )}
           </ul>
         );
