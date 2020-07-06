@@ -73,7 +73,7 @@ export default class ProductContainer extends React.Component {
         title: response.data.title,
         description: response.data.description,
         price: response.data.price,
-        isVisible: true,
+        isVisible: true
       };
       newProducts.push(product);
       this.setState({ products: newProducts });
@@ -130,13 +130,13 @@ export default class ProductContainer extends React.Component {
   };
 
   //画像の追加
-  file = async (id, imagePath) => {
+  file = async (id, imagePath,image) => {
     try {
       const apiToken = this.state.apiToken;
       const products = this.state.products.slice();
       await productApi.image(id, imagePath, apiToken);
       const fileIndex = products.findIndex(product => product.id === id);
-      products[fileIndex] = { ...products[fileIndex], imagePath };
+      products[fileIndex] = { ...products[fileIndex], imagePath,image };
       this.setState({ products: products });
       console.log(products);
     } catch (e) {

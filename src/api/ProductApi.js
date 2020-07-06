@@ -61,21 +61,17 @@ const $delete = (id, apiToken) => {
  *  画像HOST
  */
 const image = (id, imagePath, apiToken) => {
-    axios.patch(
-      REACT_APP_HOST + 'api/products' + `/${id}` + `/images`,imagePath,
-      {
-        headers: {
-          Authorization: `Bearer:${apiToken}`
-        },
-      }
-      );
-  };
-
+  axios.patch(REACT_APP_HOST + 'api/products' + `/${id}` + `/images`, imagePath, {
+    headers: {
+      Authorization: `Bearer:${apiToken}`,
+    },
+  });
+};
 
 export default {
   login,
   add,
   update,
   delete: $delete,
-  image
+  image,
 };

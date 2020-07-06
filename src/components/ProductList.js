@@ -11,10 +11,14 @@ export default class ProductList extends React.Component {
   handleFileChange = (id, e) => {
     e.preventDefault();
     let data = new FormData();
+    let reader = new FileReader();
     let file = e.target.files[0];
     data.append('productImage', file);
-    this.props.file(id, data);
-  };
+    reader.onloadend = () => {
+      this.props.file(id, data,reader.result);
+    };
+    reader.readAsDataURL(file);
+    };
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -55,6 +59,7 @@ export default class ProductList extends React.Component {
 
             <div>
               <input type="file" onChange={e => this.handleFileChange(product.id, e)} />
+              <img src={product.image} />
             </div>
 
             {product.editIsVisible && (
