@@ -58,7 +58,7 @@ const $delete = (id, apiToken) => {
 };
 
 /**
- *  画像HOST
+ *  画像アップロード
  */
 const image = (id, imagePath, apiToken) => {
   axios.patch(REACT_APP_HOST + 'api/products' + `/${id}` + `/images`, imagePath, {
