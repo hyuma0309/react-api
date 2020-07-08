@@ -8,17 +8,18 @@ export default class ProductList extends React.Component {
   };
 
   //画像ファイルの読み取り
-  handleFileChange = (id, e) => {
+  handleFileChange = (id, image, e) => {
     e.preventDefault();
     let data = new FormData();
     let reader = new FileReader();
     let file = e.target.files[0];
     data.append('productImage', file);
     reader.onloadend = () => {
-      this.props.file(id, data,reader.result);
+      this.props.file(id, data, reader.result, image);
     };
     reader.readAsDataURL(file);
-    };
+    console.log(image);
+  };
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -41,6 +42,7 @@ export default class ProductList extends React.Component {
   };
 
   render() {
+    const REACT_APP_HOST = process.env.REACT_APP_HOST;
     const product = this.props.products.map(product => {
       if (product.isVisible === true) {
         return (
@@ -48,6 +50,7 @@ export default class ProductList extends React.Component {
             <li>{product.title}</li>
             <li>{product.description}</li>
             <li>{product.price}円</li>
+
             <div>
               <button type="submit" onClick={() => this.delete(product.id)}>
                 削除
@@ -58,10 +61,16 @@ export default class ProductList extends React.Component {
             </div>
 
             <div>
-              <input type="file" onChange={e => this.handleFileChange(product.id, e)} />
+              <input
+                type="file"
+                onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
+              />
+
               <img src={product.image} />
             </div>
-
+            <img
+              src={`${REACT_APP_HOST}api/products/${product.id}/images/${product.imagePath}`}
+            />
             {product.editIsVisible && (
               <EditForm product={product} edit={this.edit} id={product.id} />
             )}

@@ -64,7 +64,19 @@ const image = (id, imagePath, apiToken) => {
   axios.patch(REACT_APP_HOST + 'api/products' + `/${id}` + `/images`, imagePath, {
     headers: {
       Authorization: `Bearer:${apiToken}`,
-    },
+    }
+  }
+
+  );
+};
+/**
+ * 画像を取得
+ */
+const getImage = (id, imagePath, apiToken) => {
+   axios.get(REACT_APP_HOST + 'api/products' + `/${id}` + `/images` + `/${imagePath}`,imagePath,{
+    headers: {
+      Authorization: `Bearer:${apiToken}`,
+    }
   });
 };
 
@@ -74,4 +86,5 @@ export default {
   update,
   delete: $delete,
   image,
+  getImage
 };

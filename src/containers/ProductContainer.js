@@ -73,13 +73,15 @@ export default class ProductContainer extends React.Component {
         title: response.data.title,
         description: response.data.description,
         price: response.data.price,
-        isVisible: true
+        isVisible: true,
+        image: '',
       };
       newProducts.push(product);
       this.setState({ products: newProducts });
     } catch (e) {
       this.undefindError(e);
     }
+    console.log(this.props.products);
   };
 
   //商品の削除
@@ -130,31 +132,34 @@ export default class ProductContainer extends React.Component {
   };
 
   //画像の追加
-  file = async (id, imagePath,image) => {
+  file = async (id, imagePath, image) => {
     try {
       const apiToken = this.state.apiToken;
       const products = this.state.products.slice();
       await productApi.image(id, imagePath, apiToken);
       const fileIndex = products.findIndex(product => product.id === id);
-      products[fileIndex] = { ...products[fileIndex], imagePath,image };
+      products[fileIndex] = { ...products[fileIndex], imagePath, image };
       this.setState({ products: products });
-      console.log(products);
     } catch (e) {
       this.undefindError(e);
     }
   };
 
   //商品の検索
-  search = word => {
+  search = async word => {
     const newProducts = this.state.products;
-    newProducts.forEach(value => {
-      value.title.includes(word);
-      if (value.title.includes(word)) {
-        value.isVisible = true;
-      } else {
-        value.isVisible = false;
-      }
-    });
+    const apiToken = this.state.apiToken;
+    await Promise.all(
+      newProducts.map(async value => {
+        value.title.includes(word);
+        if (value.title.includes(word)) {
+          value.isVisible = true;
+        } else {
+          value.isVisible = false;
+        }
+        await productApi.getImage(value.id, value.imagePath, apiToken);
+      })
+    );
     this.setState({ products: newProducts });
   };
 
