@@ -11,6 +11,7 @@ export default class ProductContainer extends React.Component {
       apiToken: '',
       message: '',
       products: [],
+      response: ""
     };
   }
 
@@ -31,7 +32,7 @@ export default class ProductContainer extends React.Component {
    *ネットワークエラー
    * @param e
    */
-  undefindError = e => {
+  errorResponse = e => {
     if (!e.response) {
       alert('ネットワークエラーが発生しました！');
     } else if (e.response.status === 400) {
@@ -51,14 +52,14 @@ export default class ProductContainer extends React.Component {
     try {
       e.preventDefault();
       const apiToken = this.state.apiToken;
-      const products = await productApi.login(apiToken);
+      const response = await productApi.login(apiToken);
       this.setState({
-        products: products.data,
+        products: response.data,
       });
       this.setState({ message: '認証に成功しました' });
       window.localStorage.setItem('apiToken', apiToken);
     } catch (e) {
-      this.undefindError(e);
+      this.errorResponse(e);
     }
   };
 
@@ -68,18 +69,19 @@ export default class ProductContainer extends React.Component {
     const newProducts = this.state.products.slice();
     try {
       const response = await productApi.add(title, description, price, apiToken);
+      console.log(response);
       const product = {
         id: response.data.id,
         title: response.data.title,
         description: response.data.description,
         price: response.data.price,
         isVisible: true,
-        image: '',
+        image: null
       };
       newProducts.push(product);
       this.setState({ products: newProducts });
     } catch (e) {
-      this.undefindError(e);
+      this.errorResponse(e);
     }
     console.log(this.props.products);
   };
@@ -96,7 +98,7 @@ export default class ProductContainer extends React.Component {
       await productApi.delete(id, apiToken);
       this.setState({ products: products });
     } catch (e) {
-      this.undefindError(e);
+      this.errorResponse(e);
     }
   };
 
@@ -127,21 +129,30 @@ export default class ProductContainer extends React.Component {
       await productApi.update(id, editProduct, apiToken);
       this.setState({ products: products });
     } catch (e) {
-      this.undefindError(e);
+      this.errorResponse(e);
     }
   };
 
   //画像の追加
-  file = async (id, imagePath, image) => {
+  file = async (id, data) => {
+    const apiToken = this.state.apiToken;
+    const products = this.state.products.slice();
     try {
-      const apiToken = this.state.apiToken;
-      const products = this.state.products.slice();
-      await productApi.image(id, imagePath, apiToken);
+      await productApi.image(id, data, apiToken);
       const fileIndex = products.findIndex(product => product.id === id);
-      products[fileIndex] = { ...products[fileIndex], imagePath, image };
+      products[fileIndex] = { ...products[fileIndex], data };
       this.setState({ products: products });
+
+    await Promise.all(
+      products.map(async product => {
+    const response = await productApi.getImage(id, product.imagePath, apiToken);
+    const image = response.data
+    products[fileIndex] = { ...products[fileIndex],image};
+    this.setState({ products: products })
+    })
+    );
     } catch (e) {
-      this.undefindError(e);
+      this.errorResponse(e);
     }
   };
 
@@ -150,14 +161,15 @@ export default class ProductContainer extends React.Component {
     const newProducts = this.state.products;
     const apiToken = this.state.apiToken;
     await Promise.all(
-      newProducts.map(async value => {
-        value.title.includes(word);
-        if (value.title.includes(word)) {
-          value.isVisible = true;
+      newProducts.map(async product => {
+        product.title.includes(word);
+        if (product.title.includes(word)) {
+          product.isVisible = true;
         } else {
-          value.isVisible = false;
+          product.isVisible = false;
         }
-        await productApi.getImage(value.id, value.imagePath, apiToken);
+        const response = await productApi.getImage(product.id, product.imagePath, apiToken);
+        console.log(response.data)
       })
     );
     this.setState({ products: newProducts });
@@ -185,6 +197,7 @@ export default class ProductContainer extends React.Component {
           edit={this.edit}
           editForm={this.editForm}
           file={this.file}
+          apiToken={this.state.apiToken}
         />
         <SearchForm search={this.search} />
       </div>

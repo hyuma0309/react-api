@@ -61,24 +61,22 @@ const $delete = (id, apiToken) => {
  *  画像アップロード
  */
 const image = (id, imagePath, apiToken) => {
-  axios.patch(REACT_APP_HOST + 'api/products' + `/${id}` + `/images`, imagePath, {
-    headers: {
-      Authorization: `Bearer:${apiToken}`,
-    }
-  }
-
-  );
+  productApi.patch(`/${id}` + `/images`, imagePath, generateHeader(apiToken) );
 };
+
 /**
  * 画像を取得
  */
 const getImage = (id, imagePath, apiToken) => {
-   axios.get(REACT_APP_HOST + 'api/products' + `/${id}` + `/images` + `/${imagePath}`,imagePath,{
-    headers: {
-      Authorization: `Bearer:${apiToken}`,
-    }
-  });
+const image =axios.get(REACT_APP_HOST + 'api/products' +`/${id}` + `/images` + `/${imagePath}`,{
+headers: {
+Authorization: `Bearer:${apiToken}`,
+},
+responseType: 'text'
+})
+return image;
 };
+
 
 export default {
   login,

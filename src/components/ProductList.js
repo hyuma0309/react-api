@@ -1,5 +1,7 @@
 import React from 'react';
 import EditForm from './EditForm';
+import productApi from '../api/ProductApi';
+
 
 export default class ProductList extends React.Component {
   //商品の削除
@@ -8,18 +10,14 @@ export default class ProductList extends React.Component {
   };
 
   //画像ファイルの読み取り
-  handleFileChange = (id, image, e) => {
+  handleFileChange = (id,imagePath, e) => {
     e.preventDefault();
     let data = new FormData();
-    let reader = new FileReader();
     let file = e.target.files[0];
     data.append('productImage', file);
-    reader.onloadend = () => {
-      this.props.file(id, data, reader.result, image);
-    };
-    reader.readAsDataURL(file);
-    console.log(image);
+    this.props.file(id, data,imagePath);
   };
+
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -41,8 +39,8 @@ export default class ProductList extends React.Component {
     this.props.edit(id, editProduct);
   };
 
+
   render() {
-    const REACT_APP_HOST = process.env.REACT_APP_HOST;
     const product = this.props.products.map(product => {
       if (product.isVisible === true) {
         return (
@@ -65,12 +63,15 @@ export default class ProductList extends React.Component {
                 type="file"
                 onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
               />
+            </div>
+
+            {'image' in product ? (
 
               <img src={product.image} />
-            </div>
-            <img
-              src={`${REACT_APP_HOST}api/products/${product.id}/images/${product.imagePath}`}
-            />
+
+        ) : (
+              <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
+        )}
             {product.editIsVisible && (
               <EditForm product={product} edit={this.edit} id={product.id} />
             )}
