@@ -58,6 +58,7 @@ export default class ProductContainer extends React.Component {
       });
       this.setState({ message: '認証に成功しました' });
       window.localStorage.setItem('apiToken', apiToken);
+      console.log(this.state.products)
     } catch (e) {
       this.errorResponse(e);
     }
@@ -143,19 +144,8 @@ export default class ProductContainer extends React.Component {
       const fileIndex = products.findIndex(product => product.id === id);
       products[fileIndex] = { ...products[fileIndex], data };
       console.log(products)
-      //products.imagePathに値追加　(例)6eb25c59-e0da-4ca0-a338-506de6307b7f.jpg
+      //productsに値追加　(例)data: FormData {}
       this.setState({ products: products });
-
-      //画像の取得
-    await Promise.all(
-      products.map(async product => {
-    const response = await productApi.getImage(id, product.imagePath, apiToken);
-    const image = response.data
-    products[fileIndex] = { ...products[fileIndex],image};
-    //products　配列にimageを追加 (例)data:image/jpeg;base64,/9j/4AAQSkZJRgABA...
-    this.setState({ products: products })
-    })
-    );
     } catch (e) {
       this.errorResponse(e);
     }
@@ -173,8 +163,7 @@ export default class ProductContainer extends React.Component {
         } else {
           product.isVisible = false;
         }
-        const response = await productApi.getImage(product.id, product.imagePath, apiToken);
-        console.log(response.data)
+     await productApi.getImage(product.id, product.imagePath, apiToken);
       })
     );
     this.setState({ products: newProducts });

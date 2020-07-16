@@ -1,7 +1,6 @@
 import React from 'react';
-import EditForm from './EditForm';
 import productApi from '../api/ProductApi';
-
+import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
   //商品の削除
@@ -10,14 +9,34 @@ export default class ProductList extends React.Component {
   };
 
   //画像ファイルの読み取り
-  handleFileChange = (id,imagePath, e) => {
+  handleFileChange = (id, imagePath, e) => {
     e.preventDefault();
     let data = new FormData();
     let file = e.target.files[0];
     data.append('productImage', file);
-    this.props.file(id, data,imagePath);
+    this.props.file(id, data, imagePath);
   };
 
+  //画像ファイルの表示
+  imageButton = async (id, e) => {
+    e.preventDefault();
+    const products = this.props.products.slice();
+    const fileIndex = products.findIndex(product => product.id === id);
+    try {
+      await Promise.all(
+        products.map(async product => {
+          const response = await productApi.getImage(id, product.imagePath, this.props.apiToken);
+          const image = response.data;
+          products[fileIndex] = { ...products[fileIndex],image };
+          console.log(products)
+          this.setState({ products: products });
+          console.log(products);
+        })
+      );
+    } catch (e) {
+      console.log('エラーです');
+    }
+  };
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -38,7 +57,6 @@ export default class ProductList extends React.Component {
     };
     this.props.edit(id, editProduct);
   };
-
 
   render() {
     const product = this.props.products.map(product => {
@@ -64,14 +82,15 @@ export default class ProductList extends React.Component {
                 onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
               />
             </div>
+            <button type="submit" onClick={e => this.imageButton(product.id, e)}>
+              画像表示
+            </button>
 
             {'image' in product ? (
-
-              <img src={product.image} />
-
-        ) : (
+             <img src={product.image} />
+            ) : (
               <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
-        )}
+            )}
             {product.editIsVisible && (
               <EditForm product={product} edit={this.edit} id={product.id} />
             )}
