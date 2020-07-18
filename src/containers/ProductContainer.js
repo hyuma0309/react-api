@@ -140,12 +140,14 @@ export default class ProductContainer extends React.Component {
     const products = this.state.products.slice();
     try {
       //画像のアップロード
-      await productApi.image(id, data, apiToken);
+      const response =  await productApi.image(id, data, apiToken);
+      console.log(response.data.imagePath)
+      const image = await productApi.getImage(response.data.id, response.data.imagePath, this.state.apiToken);
+      console.log(image)
       const fileIndex = products.findIndex(product => product.id === id);
-      products[fileIndex] = { ...products[fileIndex], data };
-      console.log(products)
-      //productsに値追加　(例)data: FormData {}
+      products[fileIndex] = { ...products[fileIndex],image };
       this.setState({ products: products });
+      console.log(products[fileIndex].image)
     } catch (e) {
       this.errorResponse(e);
     }
@@ -154,18 +156,15 @@ export default class ProductContainer extends React.Component {
   //商品の検索
   search = async word => {
     const newProducts = this.state.products;
-    const apiToken = this.state.apiToken;
-    await Promise.all(
-      newProducts.map(async product => {
+      newProducts.map(product => {
         product.title.includes(word);
         if (product.title.includes(word)) {
           product.isVisible = true;
         } else {
           product.isVisible = false;
         }
-     await productApi.getImage(product.id, product.imagePath, apiToken);
       })
-    );
+    ;
     this.setState({ products: newProducts });
   };
 

@@ -17,26 +17,6 @@ export default class ProductList extends React.Component {
     this.props.file(id, data, imagePath);
   };
 
-  //画像ファイルの表示
-  imageButton = async (id, e) => {
-    e.preventDefault();
-    const products = this.props.products.slice();
-    const fileIndex = products.findIndex(product => product.id === id);
-    try {
-      await Promise.all(
-        products.map(async product => {
-          const response = await productApi.getImage(id, product.imagePath, this.props.apiToken);
-          const image = response.data;
-          products[fileIndex] = { ...products[fileIndex],image };
-          console.log(products)
-          this.setState({ products: products });
-          console.log(products);
-        })
-      );
-    } catch (e) {
-      console.log('エラーです');
-    }
-  };
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -82,9 +62,6 @@ export default class ProductList extends React.Component {
                 onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
               />
             </div>
-            <button type="submit" onClick={e => this.imageButton(product.id, e)}>
-              画像表示
-            </button>
 
             {'image' in product ? (
              <img src={product.image} />
