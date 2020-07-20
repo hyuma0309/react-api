@@ -68,7 +68,7 @@ const image = (id, imagePath, apiToken) => {
  * 画像を取得
  */
 const getImage = (id, imagePath, apiToken) => {
-  const image = axios
+  return axios
     .get(REACT_APP_HOST + 'api/products' + `/${id}` + `/images` + `/${imagePath}`, {
       headers: {
         Authorization: `Bearer:${apiToken}`,
@@ -81,7 +81,6 @@ const getImage = (id, imagePath, apiToken) => {
       );
       return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`;
     });
-  return image;
 };
 
 export default {
