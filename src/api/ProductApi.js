@@ -61,29 +61,28 @@ const $delete = (id, apiToken) => {
  *  画像アップロード
  */
 const image = (id, imagePath, apiToken) => {
-  return productApi.patch(`/${id}` + `/images`, imagePath, generateHeader(apiToken) );
+  return productApi.patch(`/${id}` + `/images`, imagePath, generateHeader(apiToken));
 };
 
 /**
  * 画像を取得
  */
 const getImage = (id, imagePath, apiToken) => {
-const image =axios.get(REACT_APP_HOST + 'api/products' +`/${id}` + `/images` + `/${imagePath}`,{
-headers: {
-Authorization: `Bearer:${apiToken}`,
-},
-responseType: 'arraybuffer'
-})
-.then((response) => {
-  let image = btoa(
-    new Uint8Array(response.data)
-      .reduce((data, byte) => data + String.fromCharCode(byte), '')
-  );
-  return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`;
-});
-return image;
-}
-
+  const image = axios
+    .get(REACT_APP_HOST + 'api/products' + `/${id}` + `/images` + `/${imagePath}`, {
+      headers: {
+        Authorization: `Bearer:${apiToken}`,
+      },
+      responseType: 'arraybuffer',
+    })
+    .then(response => {
+      let image = btoa(
+        new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+      return `data:${response.headers['content-type'].toLowerCase()};base64,${image}`;
+    });
+  return image;
+};
 
 export default {
   login,
@@ -91,5 +90,5 @@ export default {
   update,
   delete: $delete,
   image,
-  getImage
+  getImage,
 };
