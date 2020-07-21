@@ -22,7 +22,7 @@ export default class ProductContainer extends React.Component {
 
   /**
    * apiTokenの変更をstateに反映
-   * @param e
+   * @param e イベントオブジェクト
    */
   handleInputChange = e => {
     this.setState({ apiToken: e.target.value });
@@ -30,9 +30,9 @@ export default class ProductContainer extends React.Component {
 
   /**
    *ネットワークエラー
-   * @param e
+   * @param e イベントオブジェクト
    */
-  errorResponse = e => {
+  getErrorResponse = e => {
     if (!e.response) {
       alert('ネットワークエラーが発生しました！');
     } else if (e.response.status === 400) {
@@ -41,12 +41,14 @@ export default class ProductContainer extends React.Component {
       alert(e.response.data.detail);
     } else if (e.response.status === 500) {
       alert(e.response.data.detail);
+    } else {
+      alert('エラーが発生しました！');
     }
   };
 
   /**
    * トークンで認証
-   * @param e
+   * @param e イベントオブジェクト
    */
   authentication = async e => {
     try {
@@ -59,7 +61,7 @@ export default class ProductContainer extends React.Component {
       this.setState({ message: '認証に成功しました' });
       window.localStorage.setItem('apiToken', apiToken);
     } catch (e) {
-      this.errorResponse(e);
+      this.getErrorResponse(e);
     }
   };
 
@@ -79,7 +81,7 @@ export default class ProductContainer extends React.Component {
       newProducts.push(product);
       this.setState({ products: newProducts });
     } catch (e) {
-      this.errorResponse(e);
+      this.getErrorResponse(e);
     }
   };
 
@@ -95,7 +97,7 @@ export default class ProductContainer extends React.Component {
       await productApi.delete(id, apiToken);
       this.setState({ products: products });
     } catch (e) {
-      this.errorResponse(e);
+      this.getErrorResponse(e);
     }
   };
 
@@ -126,7 +128,7 @@ export default class ProductContainer extends React.Component {
       await productApi.update(id, editProduct, apiToken);
       this.setState({ products: products });
     } catch (e) {
-      this.errorResponse(e);
+      this.getErrorResponse(e);
     }
   };
 
@@ -146,7 +148,7 @@ export default class ProductContainer extends React.Component {
       products[fileIndex] = { ...products[fileIndex], image };
       this.setState({ products: products });
     } catch (e) {
-      this.errorResponse(e);
+      this.getErrorResponse(e);
     }
   };
 
