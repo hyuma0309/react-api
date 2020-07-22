@@ -1,4 +1,5 @@
 import React from 'react';
+import productApi from '../api/ProductApi';
 import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
@@ -8,15 +9,14 @@ export default class ProductList extends React.Component {
   };
 
   //画像ファイルの読み取り
-  handleFileChange = (id, e) => {
+  handleFileChange = (id, imagePath, e) => {
     e.preventDefault();
-    let reader = new FileReader();
+    let data = new FormData();
     let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.props.file(id, reader.result);
-    };
-    reader.readAsDataURL(file);
+    data.append('productImage', file);
+    this.props.file(id, data, imagePath);
   };
+
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -24,17 +24,16 @@ export default class ProductList extends React.Component {
     this.props.editForm(id);
   };
 
-  //商品の編集
   edit = (id, e) => {
     e.preventDefault();
     const form = e.target.form;
     const title = form.title.value;
-    const desc = form.desc.value;
+    const description = form.description.value;
     const price = form.price.value;
     const editProduct = {
       title: title,
+      description: description,
       price: price,
-      desc: desc,
     };
     this.props.edit(id, editProduct);
   };
@@ -45,8 +44,9 @@ export default class ProductList extends React.Component {
         return (
           <ul key={product.id}>
             <li>{product.title}</li>
-            <li>{product.desc}</li>
+            <li>{product.description}</li>
             <li>{product.price}円</li>
+
             <div>
               <button type="submit" onClick={() => this.delete(product.id)}>
                 削除
@@ -57,12 +57,19 @@ export default class ProductList extends React.Component {
             </div>
 
             <div>
-              <input type="file" onChange={e => this.handleFileChange(product.id, e)} />
-              <img src={product.imagePreviewUrl} />
+              <input
+                type="file"
+                onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
+              />
             </div>
 
+            {'image' in product ? (
+             <img src={product.image} />
+            ) : (
+              <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
+            )}
             {product.editIsVisible && (
-              <EditForm product={this.props.products} edit={this.edit} id={product.id} />
+              <EditForm product={product} edit={this.edit} id={product.id} />
             )}
           </ul>
         );

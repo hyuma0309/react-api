@@ -13,7 +13,7 @@ export default class EditForm extends React.Component {
     const messages = [];
     const form = e.target.form;
     const title = form.title.value;
-    const desc = form.desc.value;
+    const desc = form.description.value;
     const price = form.price.value;
     const valid = document.getElementById('validate');
 
@@ -53,11 +53,11 @@ export default class EditForm extends React.Component {
       <div>
         <form id="view">
           <label>タイトル：</label>
-          <input name="title" type="text" placeholder="1〜10字"></input>
+          <input name="title" type="text" defaultValue={this.props.product.title}></input>
           <label>説明</label>
-          <input name="desc" type="text" placeholder="1〜500字"></input>
+          <input name="description" type="text" defaultValue={this.props.product.description}></input>
           <label>価格</label>
-          <input name="price" type="number" placeholder="1円以上100万円以下" min="1"></input>
+          <input name="price" type="number" defaultValue={this.props.product.price} min="1"></input>
           <button type="submit" id="validate" onClick={e => this.isValid(this.props.id, e)}>
             更新
           </button>
