@@ -1,5 +1,5 @@
 import os, sys, urlparse, SimpleHTTPServer, BaseHTTPServer
-HOST='0.0.0.0'
+HOST='35.72.4.237'
 PORT=3000
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
