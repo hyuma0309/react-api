@@ -1,6 +1,6 @@
 import os, sys, urlparse, SimpleHTTPServer, BaseHTTPServer
 HOST='0.0.0.0'
-PORT=3000
+PORT=80
 class Handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def do_GET(self):
         request_file_path = urlparse.urlparse(self.path).path.strip('/')
