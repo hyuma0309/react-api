@@ -1,5 +1,4 @@
 import React from 'react';
-import productApi from '../api/ProductApi';
 import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
@@ -16,7 +15,6 @@ export default class ProductList extends React.Component {
     data.append('productImage', file);
     this.props.file(id, data, imagePath);
   };
-
 
   //フォームの表示
   handleButton = (id, e) => {
@@ -64,7 +62,7 @@ export default class ProductList extends React.Component {
             </div>
 
             {'image' in product ? (
-             <img src={product.image} />
+              <img src={product.image} />
             ) : (
               <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
             )}
