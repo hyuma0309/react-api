@@ -45,3 +45,27 @@ $ json-server db.json
 $ curl -i http://localhost:3000/products
 
 ```
+
+## アプリケーションのデプロイ方法
+
+- EC2サーバにログイン    
+`ssh -i アクセスkeyファイル名 ec2-user@パブリックIPアドレス` 
+
+- nodeのインストール  
+nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)インストール（バージョンはローカルと合わせる）  
+`curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -`  
+
+- npmをインストール 
+`sudo yum install -y nodejs`
+
+- クローンして、クローンしたディレクトリで `npm insatall` し、npmコマンドをいれる  
+ `git clone git@github.com:teamlab-engineering/asada-frontend.git`からファイルをクローンしてくる
+
+- ビルドを実行
+`npm run build` 
+
+- buildディレクトリに移動し、webサーバを立ち上げる  
+`nohup python -m SimpleHTTPServer 3000 &`  
+
+
+
