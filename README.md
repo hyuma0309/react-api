@@ -75,9 +75,6 @@ nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)イ
 動作しているかの確認
 `$  sudo systemctl status api.service`
 
-- buildディレクトリに移動し(cd build)、webサーバを立ち上げる  
-`python -m SimpleHTTPServer 3000`  
-
 - ブラウザで表示
 `asadahyuma-alb-1711287778.ap-northeast-1.elb.amazonaws.com:3000`
 
