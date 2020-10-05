@@ -64,8 +64,20 @@ nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)イ
 - ビルドを実行
 `npm run build` 
 
-- buildディレクトリに移動し、webサーバを立ち上げる  
-`nohup python -m SimpleHTTPServer 3000 &`  
+- サービスの起動
 
+有効化
+`$ sudo systemctl enable api.service`
 
+起動
+`$ sudo systemctl start api.service`
+
+動作しているかの確認
+`$  sudo systemctl status api.service`
+
+- buildディレクトリに移動し(cd build)、webサーバを立ち上げる  
+`python -m SimpleHTTPServer 3000`  
+
+- ブラウザで表示
+`asadahyuma-alb-1711287778.ap-northeast-1.elb.amazonaws.com:3000`
 
