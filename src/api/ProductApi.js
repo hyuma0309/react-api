@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /* APIサーバーのURL */
-const REACT_APP_HOST = process.env.REACT_APP_HOST; //http://localhost:8080/
+const REACT_APP_HOST = process.env.REACT_APP_HOST;
 
 const productApi = axios.create({
   baseURL: REACT_APP_HOST + 'api/products',
