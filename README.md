@@ -76,5 +76,5 @@ nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)イ
 `$  sudo systemctl status api.service`
 
 - ブラウザで表示
-`asadahyuma-alb-1711287778.ap-northeast-1.elb.amazonaws.com:3000`
+`asadahyuma-alb-1711287778.ap-northeast-1.elb.amazonaws.com`
 
