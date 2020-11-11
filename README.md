@@ -58,7 +58,7 @@ nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)イ
 - npmをインストール 
 `sudo yum install -y nodejs`
 
-- クローンして、クローンしたディレクトリで `npm insatall` し、npmコマンドをいれる  
+- クローンして、クローンしたディレクトリで `npm install` し、npmコマンドをいれる  
  `git clone git@github.com:teamlab-engineering/asada-frontend.git`からファイルをクローンしてくる
 
 - ビルドを実行
@@ -78,3 +78,6 @@ nodeを[ここから](https://github.com/nodesource/distributions#rpminstall)イ
 - ブラウザで表示
 `asadahyuma-alb-1711287778.ap-northeast-1.elb.amazonaws.com`
 
+### 自動デプロイ  
+
+- ソースコードを更新しGithubへpushすると、自動でCodePipelineを通じビルド、デプロイを行う。
