@@ -16,4 +16,4 @@ artifacts:
 
 cache:
   paths:
-    - 'usr/local/bin/yarn/**/*'
+    - '/node_modules/**/*'
