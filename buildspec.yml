@@ -12,7 +12,6 @@ phases:
 artifacts:
   files:
     - '**/**'
-  base-directory: build
 
 cache:
   paths:
