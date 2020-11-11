@@ -1,6 +1,9 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
   pre_build:
     commands:
       - npm install -g yarn
@@ -11,7 +14,7 @@ phases:
 
 artifacts:
   files:
-    - '**/**'
+    - '**/*'
   base-directory: build
 
 cache:
