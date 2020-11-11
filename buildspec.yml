@@ -8,10 +8,14 @@ phases:
   build:
     commands:
       - yarn build
+  post_build:
+    commands:
+      - aws s3 sync build s3://tle-dev-asadahyuma-frontend
 
 artifacts:
   files:
     - '**/**'
+  base-directory: build
 
 cache:
   paths:
