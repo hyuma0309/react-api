@@ -79,7 +79,7 @@ export default class ProductList extends React.Component {
 
     return (
       <div>
-        <h1>商品リスト</h1>
+        <h1>テストリスト</h1>
         {product}
         <h3>商品件数は{searchItem.length}件です</h3>
       </div>
