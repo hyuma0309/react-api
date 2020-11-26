@@ -164,9 +164,6 @@ export default class ProductContainer extends React.Component {
         } else {
           product.isVisible = false;
         }
-        //base64に変換された画像
-        const image = await productApi.getImage(product.id, product.imagePath, apiToken);
-        product.image = image;
       })
     );
     this.setState({ products: newProducts });
