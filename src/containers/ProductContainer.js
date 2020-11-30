@@ -144,8 +144,10 @@ export default class ProductContainer extends React.Component {
         response.data.imagePath,
         this.state.apiToken
       );
+      const imagePath = response.data.imagePath
       const fileIndex = products.findIndex(product => product.id === id);
       products[fileIndex] = { ...products[fileIndex], image };
+      products[fileIndex] = { ...products[fileIndex], imagePath };
       this.setState({ products: products });
     } catch (e) {
       this.getErrorResponse(e);
@@ -163,6 +165,11 @@ export default class ProductContainer extends React.Component {
           product.isVisible = true;
         } else {
           product.isVisible = false;
+        }
+        //base64に変換された画像
+        if(product.imagePath){
+        const image = await productApi.getImage(product.id, product.imagePath, apiToken);
+        product.image = image;
         }
       })
     );
