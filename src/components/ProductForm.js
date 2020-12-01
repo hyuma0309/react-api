@@ -15,7 +15,6 @@ export default class ProductForm extends React.Component {
     const title = form.title.value;
     const description = form.description.value;
     const price = form.price.value;
-    const valid = document.getElementById('valid');
 
     const titleLength = title.length;
     const descLength = description.length;
@@ -35,7 +34,6 @@ export default class ProductForm extends React.Component {
       this.setState({ messages: [] });
       form.reset();
     } else {
-      valid.disabled = true;
       this.setState({ messages: messages });
     }
   };
@@ -59,7 +57,7 @@ export default class ProductForm extends React.Component {
           <input type="text" id="description" name="description" placeholder="1〜500字" />
           <label>価格</label>
           <input type="number" id="price" name="price" placeholder="1円以上100万円以下" min="1" />
-          <button type="submit" id="valid" onClick={this.onSubmit}>
+          <button type="submit" onClick={this.onSubmit}>
             追加
           </button>
         </form>
