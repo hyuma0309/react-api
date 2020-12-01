@@ -121,9 +121,14 @@ export default class ProductContainer extends React.Component {
         title: editProduct.title,
         description: editProduct.description,
         price: editProduct.price,
+        imagePath: products[editIndex].imagePath,
         isVisible: true,
       };
-      //上書きしたい要素に新しい要素を再代入
+       //base64に変換された画像
+        const image = await productApi.getImage(product.id, product.imagePath, apiToken);
+        product.image = image;
+
+        //上書きしたい要素に新しい要素を再代入
       products[editIndex] = product;
       await productApi.update(id, editProduct, apiToken);
       this.setState({ products: products });
