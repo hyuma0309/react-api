@@ -8,12 +8,12 @@ export default class ProductList extends React.Component {
   };
 
   // 画像ファイルの読み取り
-  handleFileChange = (id, imagePath, e) => {
+  handleFileChange = (id, e) => {
     e.preventDefault();
-    let data = new FormData();
-    let file = e.target.files[0];
+    const data = new FormData();
+    const file = e.target.files[0];
     data.append('productImage', file);
-    this.props.file(id, data, imagePath);
+    this.props.file(id, data);
   };
 
   // フォームの表示
@@ -37,6 +37,7 @@ export default class ProductList extends React.Component {
   };
 
   render() {
+    const localhost = process.env.REACT_APP_HOST + 'api/products'
     const product = this.props.products.map(product => {
       if (product.isVisible === true) {
         return (
@@ -57,12 +58,12 @@ export default class ProductList extends React.Component {
             <div>
               <input
                 type="file"
-                onChange={e => this.handleFileChange(product.id, product.imagePath, e)}
+                onChange={e => this.handleFileChange(product.id, e)}
               />
             </div>
 
-            {'image' in product ? (
-              <img src={product.image} />
+            {'imagePath' in product ? (
+              <img src={`${localhost}/${product.id}/images/${product.imagePath}`} />
             ) : (
               <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
             )}

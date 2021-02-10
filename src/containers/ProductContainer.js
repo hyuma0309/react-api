@@ -124,9 +124,6 @@ export default class ProductContainer extends React.Component {
         imagePath: products[editIndex].imagePath,
         isVisible: true,
       };
-       //base64に変換された画像
-        const image = await productApi.getImage(product.id, product.imagePath, apiToken);
-        product.image = image;
 
         //上書きしたい要素に新しい要素を再代入
       products[editIndex] = product;
@@ -144,14 +141,8 @@ export default class ProductContainer extends React.Component {
     try {
       //画像のアップロード
       const response = await productApi.image(id, data, apiToken);
-      const image = await productApi.getImage(
-        response.data.id,
-        response.data.imagePath,
-        this.state.apiToken
-      );
       const imagePath = response.data.imagePath
       const fileIndex = products.findIndex(product => product.id === id);
-      products[fileIndex] = { ...products[fileIndex], image };
       products[fileIndex] = { ...products[fileIndex], imagePath };
       this.setState({ products: products });
     } catch (e) {
@@ -162,7 +153,6 @@ export default class ProductContainer extends React.Component {
   //商品の検索
   search = async word => {
     const newProducts = this.state.products;
-    const apiToken = this.state.apiToken;
     await Promise.all(
       newProducts.map(async product => {
         product.title.includes(word);
@@ -170,11 +160,6 @@ export default class ProductContainer extends React.Component {
           product.isVisible = true;
         } else {
           product.isVisible = false;
-        }
-        //base64に変換された画像
-        if(product.imagePath){
-        const image = await productApi.getImage(product.id, product.imagePath, apiToken);
-        product.image = image;
         }
       })
     );
