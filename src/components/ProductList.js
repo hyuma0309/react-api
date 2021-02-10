@@ -2,12 +2,12 @@ import React from 'react';
 import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
-  //商品の削除
+  // 商品の削除
   delete = id => {
     this.props.delete(id);
   };
 
-  //画像ファイルの読み取り
+  // 画像ファイルの読み取り
   handleFileChange = (id, imagePath, e) => {
     e.preventDefault();
     let data = new FormData();
@@ -16,7 +16,7 @@ export default class ProductList extends React.Component {
     this.props.file(id, data, imagePath);
   };
 
-  //フォームの表示
+  // フォームの表示
   handleButton = (id, e) => {
     e.preventDefault();
     this.props.editForm(id);
