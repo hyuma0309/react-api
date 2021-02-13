@@ -9,7 +9,7 @@ export default class SearchForm extends React.Component {
   render() {
     return (
       <form>
-        <label>タイトルで検索</label>
+        <label>商品名で検索</label>
         <input type="text" name="word" />
         <button type="submit" onClick={this.onClickSearch}>
           検索

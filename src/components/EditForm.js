@@ -21,7 +21,7 @@ export default class EditForm extends React.Component {
     const priceNumber = Number(price);
 
     if (titleLength === 0 || 10 < titleLength) {
-      messages.push('タイトルは1〜10字で入力して下さい');
+      messages.push('商品名は1〜10字で入力して下さい');
     }
     if (descLength === 0 || 500 < descLength) {
       messages.push('説明は1〜500字で入力して下さい');
@@ -50,11 +50,11 @@ export default class EditForm extends React.Component {
     return (
       <div>
         <form id="view">
-          <label>タイトル：</label>
+          <label>商品名：</label>
           <input name="title" type="text" defaultValue={this.props.product.title}></input>
-          <label>説明</label>
+          <label>説明：</label>
           <input name="description" type="text" defaultValue={this.props.product.description}></input>
-          <label>価格</label>
+          <label>価格：</label>
           <input name="price" type="number" defaultValue={this.props.product.price} min="1"></input>
           <button type="submit" onClick={e => this.isValid(this.props.id, e)}>
             更新

@@ -21,7 +21,7 @@ export default class ProductForm extends React.Component {
     const priceNumber = Number(price);
 
     if (titleLength === 0 || 10 < titleLength) {
-      messages.push('タイトルは1〜10字で入力して下さい');
+      messages.push('商品名は1〜10字で入力して下さい');
     }
     if (descLength === 0 || 500 < descLength) {
       messages.push('説明は1〜500字で入力して下さい');
@@ -51,11 +51,11 @@ export default class ProductForm extends React.Component {
       <div>
         <h1>ProductForm</h1>
         <form>
-          <label>商品名</label>
+          <label>商品名：</label>
           <input type="text" id="title" placeholder="1〜10字" name="title" />
-          <label>説明</label>
+          <label>説明：</label>
           <input type="text" id="description" name="description" placeholder="1〜500字" />
-          <label>価格</label>
+          <label>価格：</label>
           <input type="number" id="price" name="price" placeholder="1円以上100万円以下" min="1" />
           <button type="submit" onClick={this.onSubmit}>
             追加

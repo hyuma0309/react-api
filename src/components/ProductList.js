@@ -1,9 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import EditForm from './EditForm';
 
 export default class ProductList extends React.Component {
   // 商品の削除
-  delete = id => {
+  delete = (id) => {
     this.props.delete(id);
   };
 
@@ -37,44 +38,53 @@ export default class ProductList extends React.Component {
   };
 
   render() {
-    const localhost = process.env.REACT_APP_HOST + 'api/products'
-    const product = this.props.products.map(product => {
+    const localhost = process.env.REACT_APP_HOST + 'api/products';
+    const product = this.props.products.map((product) => {
       if (product.isVisible === true) {
         return (
-          <ul key={product.id}>
-            <li>{product.title}</li>
-            <li>{product.description}</li>
-            <li>{product.price}円</li>
+          <table class="table">
+            <ul key={product.id}>
+              <th>{product.title}</th>
+              <th>{product.description}</th>
+              <th>{product.price}円</th>
+              <th>
+                <button
+                  class="btn btn-outline-success"
+                  type="submit"
+                  onClick={() => this.delete(product.id)}
+                >
+                  削除
+                </button>
+              </th>
+              <th>
+                <button
+                  class="btn btn-outline-primary"
+                  type="submit"
+                  onClick={(e) => this.handleButton(product.id, e)}
+                >
+                  編集
+                </button>
+              </th>
 
-            <div>
-              <button type="submit" onClick={() => this.delete(product.id)}>
-                削除
-              </button>
-              <button type="submit" onClick={e => this.handleButton(product.id, e)}>
-                編集
-              </button>
-            </div>
+              {product.editIsVisible && (
+                <EditForm product={product} edit={this.edit} id={product.id} />
+              )}
 
-            <div>
-              <input
-                type="file"
-                onChange={e => this.handleFileChange(product.id, e)}
-              />
-            </div>
+              <div>
+                <input type="file" onChange={(e) => this.handleFileChange(product.id, e)} />
+              </div>
 
-            {'imagePath' in product ? (
-              <img src={`${localhost}/${product.id}/images/${product.imagePath}`} />
-            ) : (
-              <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
-            )}
-            {product.editIsVisible && (
-              <EditForm product={product} edit={this.edit} id={product.id} />
-            )}
-          </ul>
+              {'imagePath' in product ? (
+                <img src={`${localhost}/${product.id}/images/${product.imagePath}`} />
+              ) : (
+                <img src={'http://design-ec.com/d/e_others_50/m_e_others_501.png'} />
+              )}
+            </ul>
+          </table>
         );
       }
     });
-    const searchItem = this.props.products.filter(function(value) {
+    const searchItem = this.props.products.filter(function (value) {
       return value.isVisible === true;
     });
 
