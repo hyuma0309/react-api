@@ -182,6 +182,7 @@ export default class ProductContainer extends React.Component {
         </form>
         <p>{this.state.message}</p>
         <ProductForm add={this.add} />
+        <br></br>
         <ProductList
           products={this.state.products}
           delete={this.delete}
